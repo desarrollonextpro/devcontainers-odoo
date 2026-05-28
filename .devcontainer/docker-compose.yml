@@ -1,0 +1,57 @@
+services:
+  odoo17-demo:
+    container_name: odoo17-demo
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ..:/workspace
+      - odoo17-data:/var/lib/odoo
+    depends_on:
+      - pgdb
+    command: sleep infinity
+    env_file:
+      - .env
+    ports:
+      - "7569:8069"
+      - "7571:8071"
+      - "7572:8072"
+    networks:
+      - odoo17-net
+
+  pgdb:
+    image: postgres:16.0-alpine
+    restart: unless-stopped
+    container_name: pgdb-17
+    volumes:
+      - pgdb-17-data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    environment:
+      - POSTGRES_PASSWORD=admin
+    ports:
+      - "5433:5432"
+    networks:
+      - odoo17-net
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: unless-stopped
+    ports:
+      - "8086:80"
+    container_name: pgadmin-17
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@example.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    volumes:
+      - pgadmin-17-data:/var/lib/pgadmin
+    networks:
+      - odoo17-net
+
+volumes:
+  odoo17-data:
+  pgdb-17-data:
+  pgadmin-17-data:
+
+networks:
+  odoo17-net:
+    driver: bridge

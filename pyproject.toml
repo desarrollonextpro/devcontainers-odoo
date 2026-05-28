@@ -1,0 +1,33 @@
+[project]
+name = "odoo17"
+version = "0.1.0"
+description = "Odoo 17 development environment"
+requires-python = ">=3.10"
+dependencies = [
+    "num2words",
+    "ofxparse==0.21",
+    "dbfread",
+    "ebaysdk",
+    "firebase_admin",
+    "pyfcm",
+    "pyOpenSSL",
+    "phonenumbers",
+    "openupgradelib",
+    "git-aggregator",
+    "copier",
+    "pre-commit",
+    "inotify",
+    "debugpy",
+    "pydevd-odoo",
+    "pylint_odoo",
+    "invoke",
+    "ensurepath",
+    "PyYAML",
+    "ruff",
+    "black",
+    "types-invoke",
+    "openpyxl-stubs",
+    "click-odoo-contrib",
+    "xmltodict",
+    "suds",
+]
