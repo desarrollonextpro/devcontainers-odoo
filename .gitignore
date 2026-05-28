@@ -1,0 +1,43 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Odoo - fuentes (se clonan via post-create.sh)
+odoo.19.0/
+enterprise.19.0/
+documentation.19.0/
+/filestore/
+
+# Secrets - nunca versionar
+.devcontainer/.env
+
+# Configuraciones específicas de cliente
+odoo-*.conf
+
+# Addons de clientes (no compartir código propietario)
+custom-addons/
+
+# IDE - excluir configuración local, conservar launch.json para debugging
+.vscode/*
+!.vscode/launch.json
+.idea/
+
+# Claude Code - solo compartir skills genéricos
+.claude/settings.local.json
+
+# uv
+uv.lock
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Backups y datos locales
+backups/
+backup/
+analisis-soportes/
+
+# Workspace local (contiene paths específicos de cada máquina)
+*.code-workspace

@@ -1,0 +1,57 @@
+services:
+  odoo19-demo:
+    container_name: odoo19-demo
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ..:/workspace
+      - odoo19-data:/var/lib/odoo
+    depends_on:
+      - pgdb
+    command: sleep infinity
+    env_file:
+      - .env
+    ports:
+      - "9069:8069"
+      - "9071:8071"
+      - "9072:8072"
+    networks:
+      - odoo19-net
+
+  pgdb:
+    image: postgres:17.0-alpine
+    restart: unless-stopped
+    container_name: pgdb-19
+    volumes:
+      - pgdb-19-data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    environment:
+      - POSTGRES_PASSWORD=admin
+    ports:
+      - "5431:5432"
+    networks:
+      - odoo19-net
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: unless-stopped
+    ports:
+      - "8084:80"
+    container_name: pgadmin-19
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@example.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    volumes:
+      - pgadmin-19-data:/var/lib/pgadmin
+    networks:
+      - odoo19-net
+
+volumes:
+  odoo19-data:
+  pgdb-19-data:
+  pgadmin-19-data:
+
+networks:
+  odoo19-net:
+    driver: bridge
