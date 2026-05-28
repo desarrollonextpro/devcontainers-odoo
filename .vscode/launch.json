@@ -1,0 +1,31 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Odoo: Launch",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/odoo.16.0/odoo-bin",
+      "args": ["-c", "${workspaceFolder}/odoo.conf"],
+      "python": "${workspaceFolder}/.venv/bin/python",
+      "console": "integratedTerminal",
+      "justMyCode": false
+    },
+    {
+      "name": "Odoo: Attach",
+      "type": "debugpy",
+      "request": "attach",
+      "connect": {
+        "host": "localhost",
+        "port": 5678
+      },
+      "pathMappings": [
+        {
+          "localRoot": "${workspaceFolder}",
+          "remoteRoot": "${workspaceFolder}"
+        }
+      ],
+      "justMyCode": false
+    }
+  ]
+}
