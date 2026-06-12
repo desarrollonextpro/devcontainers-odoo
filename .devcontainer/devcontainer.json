@@ -43,9 +43,17 @@
       "source": "${localEnv:HOME}/.ssh",
       "target": "/home/odoo/.ssh",
       "type": "bind"
+    },
+    {
+      "source": "claude-code-config",
+      "target": "/home/odoo/.claude",
+      "type": "volume"
     }
   ],
   "postCreateCommand": "bash .devcontainer/post-create.sh",
   "remoteUser": "odoo",
-  "containerUser": "odoo"
+  "containerUser": "odoo",
+  "remoteEnv": {
+    "CLAUDE_CONFIG_DIR": "/home/odoo/.claude"
+  }
 }
