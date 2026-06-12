@@ -119,6 +119,11 @@ RUN mkdir -p /commandhistory \
     && chown -R $USERNAME /commandhistory \
     && sync
 
+# Claude Code config (named volume mounts here; pre-create so it gets odoo ownership)
+RUN mkdir -p $USER_HOME/.claude \
+    && chown -R $USERNAME:$GID $USER_HOME/.claude \
+    && sync
+
 USER $USERNAME
 
 RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.2.1/zsh-in-docker.sh)" -- \
