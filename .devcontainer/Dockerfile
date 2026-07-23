@@ -20,7 +20,6 @@ RUN apt-get update && \
     git \
     nano \
     vim \
-    npm \
     openssh-client \
     ca-certificates \
     gnupg \
@@ -42,12 +41,26 @@ RUN apt-get update && \
     zsh \
     lsb-release \
     rsync \
+    chromium \
+    fonts-liberation \
     && apt-get autoremove -yqq \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install rtlcss
-RUN npm install -g rtlcss
+# Install Node.js 20 (LTS).
+# El paquete `npm` de Debian arrastra Node 18, pero @playwright/mcp exige
+# Node >=20. Instalamos Node 20 desde NodeSource (trae node + npm 10).
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y --no-install-recommends nodejs \
+    && rm -rf /var/lib/apt/lists/*
+
+# rtlcss (genera CSS RTL de los assets de Odoo)
+# + Playwright MCP: da a Claude herramientas de navegador (navegar el Odoo vivo,
+#   login, clic, scroll, screenshots, inspección de layout/overflow). Reutiliza el
+#   chromium del sistema (/usr/bin/chromium) vía --executable-path en /workspace/.mcp.json,
+#   por eso NO descargamos el navegador propio de Playwright (PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD).
+ENV PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
+RUN npm install -g rtlcss @playwright/mcp@latest
 
 # Install wkhtmltopdf
 ARG TARGETARCH
