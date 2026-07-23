@@ -41,3 +41,7 @@ analisis-soportes/
 
 # Workspace local (contiene paths específicos de cada máquina)
 *.code-workspace
+
+# Backups del historial/memoria de Claude Code (contienen conversaciones; NO versionar)
+.claude-backup/
+.claude-backups/
