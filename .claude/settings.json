@@ -1,0 +1,39 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(PGPASSWORD=odoo psql -h pgdb-18 -U odoo -d *)",
+      "Bash(python3 -c \":*)",
+      "Bash(git pull:*)",
+      "Bash(curl -s http://localhost:8069/web/health)",
+      "Read(//proc/**)",
+      "Bash(tail -100 /var/log/odoo/*.log)",
+      "Read(//workspace/**)",
+      "Read(//var/lib/odoo/**)",
+      "mcp__playwright"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit|NotebookEdit",
+        "hooks": [
+          { "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/mark-edit.sh\"" }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          { "type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/suggest-learning.py\"" }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          { "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR/backup-claude.sh\" >/tmp/claude-backup-last.log 2>&1 || true" }
+        ]
+      }
+    ]
+  }
+}
