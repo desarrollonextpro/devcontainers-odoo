@@ -34,3 +34,7 @@ Thumbs.db
 # Backups y datos locales
 backups/
 analisis-soportes/
+
+# Backups del historial/memoria de Claude Code (contienen conversaciones; NO versionar)
+.claude-backup/
+.claude-backups/
